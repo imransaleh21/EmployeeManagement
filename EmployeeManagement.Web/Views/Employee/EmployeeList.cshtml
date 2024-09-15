@@ -1,0 +1,112 @@
+﻿@{
+	ViewData["Title"] = "Employee List";
+}
+
+@model List<EmployeeManagement.Web.Models.Employee>
+
+@if (TempData["SuccessMessage"] != null)
+{
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+		@TempData["SuccessMessage"]
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+}
+<h1 class="text-center">Employee List</h1>
+
+<form method="get" asp-action="EmployeeList">
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" name="searchString" value="@ViewData["CurrentFilter"]" placeholder="Search by name or email" aria-label="Search">
+		<button class="btn btn-outline-secondary" type="submit">Search</button>
+	</div>
+</form>
+
+<table class="table mt-3">
+	<thead>
+		<tr>
+			<th>Photo</th>
+			<th>
+				<a asp-action="EmployeeList" asp-route-sortOrder="@ViewData["NameSortParm"]">
+					Name
+					@if (ViewData["NameSortParm"] as string == "name_desc")
+					{
+						<span>&#9660;</span> <!-- Down arrow for descending -->
+					}
+					else
+					{
+						<span>&#9650;</span> <!-- Up arrow for ascending -->
+					}
+				</a>
+			</th>
+			<th>
+				<a asp-action="EmployeeList" asp-route-sortOrder="@ViewData["EmailSortParm"]">
+					Email
+					@if (ViewData["EmailSortParm"] as string == "email_desc")
+					{
+						<span>&#9660;</span> <!-- Down arrow for descending -->
+					}
+					else
+					{
+						<span>&#9650;</span> <!-- Up arrow for ascending -->
+					}
+				</a>
+			</th>
+			<th>
+				<a asp-action="EmployeeList" asp-route-sortOrder="@ViewData["PhoneSortParm"]">
+					Phone
+					@if (ViewData["PhoneSortParm"] as string == "phone_desc")
+					{
+						<span>&#9660;</span> <!-- Down arrow for descending -->
+					}
+					else
+					{
+						<span>&#9650;</span> <!-- Up arrow for ascending -->
+					}
+				</a>
+			</th>
+			<th>
+				<a asp-action="EmployeeList" asp-route-sortOrder="@ViewData["DateSortParm"]">
+					Date of Birth
+					@if (ViewData["DateSortParm"] as string == "date_desc")
+					{
+						<span>&#9660;</span> <!-- Down arrow for descending -->
+					}
+					else
+					{
+						<span>&#9650;</span> <!-- Up arrow for ascending -->
+					}
+				</a>
+			</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@if (item.ProfilePicture != null)
+					{
+						<img src="@Url.Action("GetProfilePicture", "Employee", new { id = item.Id })" alt="Profile Picture" style="width: 50px; height: 50px;" />
+					}
+					else
+					{
+						<span>No Photo</span>
+					}
+				</td>
+				<td>@item.Name</td>
+				<td>@item.Email</td>
+				<td>@item.Phone</td>
+				<td>@item.DateOfBirth.ToShortDateString()</td>
+				<td>
+					<a class="btn btn-primary" asp-controller="Employee" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+					<a class="btn btn-danger" asp-action="Delete" asp-controller="Employee" asp-route-id="@item.Id"
+					   onclick="return confirm('Are you sure you want to delete this employee?');">
+						Delete
+					</a>
+				</td>
+			</tr>
+
+		}
+	</tbody>
+</table>

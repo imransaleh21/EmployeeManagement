@@ -1,0 +1,51 @@
+﻿@{
+}
+
+@model EmployeeManagement.Web.Models.Employee
+
+<h1 class="text-center">Edit Employee</h1>
+
+@if (Model is null)
+{
+	<p>Employee not found</p>
+}
+
+else
+{
+	<form method="post">
+		<div class="mt-3">
+			<label class="form-label">Name</label>
+			<input type="text" class="form-control" asp-for="Name" />
+			<span asp-validation-for="Name" class="text-danger"></span>
+		</div>
+
+		<div class="mt-3">
+			<label class="form-label">Email</label>
+			<input type="email" class="form-control" asp-for="Email" />
+			<span asp-validation-for="Email" class="text-danger"></span>
+		</div>
+
+		<div class="mt-3">
+			<label class="form-label">Phone</label>
+			<input type="tel" class="form-control" asp-for="Phone" />
+			<span asp-validation-for="Phone" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label for="DateOfBirth" class="form-label">Date of Birth</label>
+			<input type="text" class="form-control datepicker" id="DateOfBirth" name="DateOfBirth" placeholder="Select Date of Birth" asp-for="DateOfBirth" />
+			<span asp-validation-for="DateOfBirth" class="text-danger"></span>
+		</div>
+
+		@* <div class="mt-3">
+			<!-- picture upload field -->
+			<label class="form-label">Update picture</label>
+			<input type="file" class="form-control" accept="image/*" asp-for="ProfilePicture" />
+			<span asp-validation-for="ProfilePicture" class="text-danger"></span>
+		</div> *@
+
+		<div class="mt-3">
+			<button type="submit" class="btn btn-primary">Update</button>
+		</div>
+	</form>
+}
